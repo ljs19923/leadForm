@@ -8,14 +8,14 @@ body {
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
   background-color: $mainColor;
-  overflow: hidden;
+  // overflow: hidden;
 }
 
-@media (max-width: 600px) {
-  body {
-    overflow: auto;
-  }
-}
+// @media (max-width: 600px) {
+//   body {
+//     overflow: auto;
+//   }
+// }
 
 html {
   scroll-behavior: smooth;

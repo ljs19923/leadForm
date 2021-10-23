@@ -40,9 +40,9 @@ Parse.serverURL =
 
 function App() {
   const [leadForm, setLeadForm] = useState(new LeadForm());
-  const [footerIsHidden, setFooterIsHidden] = useState(true);
   const [appStarted, setAppStarted] = useState(false);
   const [offsetScroll, setOffsetScroll] = useState(100);
+  const [currentStep, setCurrentStep] = useState(0);
 
   useEffect(async () => {
     // Met à jor le titre du documnt via l’API du navigateur
@@ -374,12 +374,14 @@ function App() {
   };
 
   const handleBack = (index) => {
-    scroller.scrollTo(String(index), {
-      duration: 300,
-      delay: 0,
-      smooth: false,
-      offset: offsetScroll,
-    });
+    // scroller.scrollTo(String(index), {
+    //   duration: 300,
+    //   delay: 0,
+    //   smooth: false,
+    //   offset: offsetScroll,
+    // });
+
+    setCurrentStep(index);
 
     const progressValue = (index / (questions.length + 1)) * 100;
 
@@ -387,12 +389,14 @@ function App() {
   };
 
   const startQuestions = async () => {
-    scroller.scrollTo("1", {
-      duration: 300,
-      delay: 0,
-      smooth: false,
-      offset: offsetScroll,
-    });
+    // scroller.scrollTo("1", {
+    //   duration: 300,
+    //   delay: 0,
+    //   smooth: false,
+    //   offset: offsetScroll,
+    // });
+
+    setCurrentStep(1);
 
     const progressValue = (1 / (questions.length + 1)) * 100;
     setProgress(progressValue);
@@ -423,43 +427,16 @@ function App() {
 
     updateLead(question.param, answer);
 
-    var indexToGo = -1;
-
-    for (var i = questions.length - 1; i >= 0; i--) {
-      if (questions[i].answerIsValid == false) {
-        indexToGo = i;
-      }
-    }
-
-    //On a fini
-    if (indexToGo == -1) {
-      setFooterIsHidden(false);
-
-      scroll.scrollToBottom({
-        duration: 300,
-        delay: 0,
-        smooth: false,
-        offset: 0, // Scrolls to element + 50 pixels down the page
-      });
-
-      const progressValue =
-        ((questions.length + 1) / (questions.length + 1)) * 100;
-      setProgress(progressValue);
+    if (index + 1 == questions.length) {
+      console.info("ON A FINI " + index);
 
       updateLead("done", true);
-
       ReactPixel.track("TypeformSubmit");
-    } else {
-      scroller.scrollTo(String(indexToGo + 1), {
-        duration: 300,
-        delay: 0,
-        smooth: false,
-        offset: offsetScroll,
-      });
-
-      const progressValue = ((indexToGo + 1) / (questions.length + 1)) * 100;
-      setProgress(progressValue);
     }
+
+    setCurrentStep(Number(index + 2));
+    const progressValue = ((index + 2) / (questions.length + 1)) * 100;
+    setProgress(progressValue);
   };
   return (
     <div className="container">
@@ -471,13 +448,21 @@ function App() {
       />
       <img className="france" alt="france" src={france} />
 
-      <Element name="0">
+      <Element
+        className={classNames({
+          hidden: currentStep == 0 ? false : true,
+        })}
+      >
         <Header startQuestions={startQuestions} />
       </Element>
 
       <div className="innerContainer">
         {questions.map((data, index) => (
-          <Element name={String(index + 1)}>
+          <Element
+            className={classNames({
+              hidden: currentStep == Number(index + 1) ? false : true,
+            })}
+          >
             <Question
               questions={questions}
               handleChangeChoice={handleChangeChoice}
@@ -490,11 +475,13 @@ function App() {
         ))}
       </div>
 
-      {!footerIsHidden ? (
-        <Element name="pageFinal">
-          <Footer />
-        </Element>
-      ) : null}
+      <Element
+        className={classNames({
+          hidden: currentStep == questions.length + 1 ? false : true,
+        })}
+      >
+        <Footer />
+      </Element>
     </div>
   );
 }
