@@ -469,6 +469,7 @@ function App() {
               handleChangeAnswer={handleChangeAnswer}
               handleNext={handleNext}
               handleBack={handleBack}
+              remaining={questions.length - index}
               index={index}
             />
           </Element>
@@ -494,7 +495,7 @@ function lowerCaseAllWordsExceptFirstLetters(string) {
   return string.replace(/\S*/g, function (word) {
     return word.charAt(0) + word.slice(1).toLowerCase();
   });
-}
+} //
 
 function getOS() {
   var userAgent = window.navigator.userAgent,

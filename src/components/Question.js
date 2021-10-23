@@ -11,6 +11,7 @@ function Question({
   handleNext,
   handleBack,
   handleChangeAnswer,
+  remaining,
 }) {
   var question = questions[index];
   var answers = question.answers;
@@ -64,7 +65,6 @@ function Question({
         {question.question}
       </h2>
       <p>{question.subtitle}</p>
-
       <div className="checkList">
         {question.type === "choice" && (
           <ul>
@@ -187,6 +187,14 @@ function Question({
             appuyez sur <strong>Entrée ↵</strong>
           </p>
         </div>
+
+        {remaining == 1 && (
+          <p className="timeInfo">⏳ {remaining} question restante</p>
+        )}
+
+        {remaining != 1 && (
+          <p className="timeInfo">⏳ {remaining} questions restantes</p>
+        )}
       </div>
     </div>
   );
