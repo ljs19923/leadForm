@@ -34,6 +34,7 @@ function App() {
   const [leadForm, setLeadForm] = useState(new LeadForm());
   const [footerIsHidden, setFooterIsHidden] = useState(true);
   const [appStarted, setAppStarted] = useState(false);
+  const [offsetScroll, setOffsetScroll] = useState(150);
 
   useEffect(async () => {
     // Met à jor le titre du documnt via l’API du navigateur
@@ -41,6 +42,9 @@ function App() {
       setAppStarted(true);
       await updateLead("created", true);
 
+      if (isMobile == false) {
+        setOffsetScroll(0);
+      }
       scroll.scrollTo(0, {
         duration: 0.3,
         delay: 0,
@@ -353,7 +357,7 @@ function App() {
       duration: 300,
       delay: 0,
       smooth: false,
-      offset: 0,
+      offset: offsetScroll,
     });
 
     const progressValue = (index / (questions.length + 1)) * 100;
@@ -366,7 +370,7 @@ function App() {
       duration: 300,
       delay: 0,
       smooth: false,
-      offset: 0,
+      offset: offsetScroll,
     });
 
     const progressValue = (1 / (questions.length + 1)) * 100;
@@ -425,7 +429,7 @@ function App() {
         duration: 300,
         delay: 0,
         smooth: false,
-        offset: 0,
+        offset: offsetScroll,
       });
 
       const progressValue = ((indexToGo + 1) / (questions.length + 1)) * 100;
