@@ -432,6 +432,7 @@ function App() {
 
       updateLead("done", true);
       ReactPixel.track("TypeformSubmit");
+      ReactPixel.track("CustomFormDone");
     }
 
     setCurrentStep(Number(index + 2));
