@@ -11,7 +11,7 @@ function Header({ startQuestions }) {
       <div className="headerImages">
         <img className="logo" alt="logo" src={maprimerenov} />
       </div>
-      <h1>Panneaux Solaire 2021</h1>
+      <h1>Vanneaux Solaire 2021</h1>
       <h3>
         <strong>Vérifier votre éligibilité au programme !</strong>
       </h3>

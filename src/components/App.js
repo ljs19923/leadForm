@@ -1,4 +1,5 @@
 import React, { useState, useEffect } from "react";
+
 import Question from "./Question";
 import Footer from "./Footer";
 import Header from "./Header";
@@ -37,6 +38,8 @@ function App() {
   const [footerIsHidden, setFooterIsHidden] = useState(true);
   const [appStarted, setAppStarted] = useState(false);
 
+  const size = useWindowSize();
+
   useEffect(async () => {
     // Met à jor le titre du documnt via l’API du navigateur
     if (appStarted == false) {
@@ -44,7 +47,7 @@ function App() {
       await updateLead("created", true);
 
       scroll.scrollTo(0, {
-        duration: 0,
+        duration: 0.3,
         delay: 0,
       });
       const progressValue = (0 / (questions.length + 1)) * 100;
@@ -352,7 +355,7 @@ function App() {
 
   const handleBack = (index) => {
     scroll.scrollTo(index * window.innerHeight, {
-      duration: 0,
+      duration: 0.3,
       delay: 0,
     });
 
@@ -362,8 +365,13 @@ function App() {
   };
 
   const startQuestions = async () => {
-    scroll.scrollTo(window.innerHeight, {
-      duration: 0,
+    console.info("height " + size.height);
+
+    updateLead("heightinit", window.innerHeight);
+    updateLead("newheight", size.height);
+
+    scroll.scrollTo(size.height, {
+      duration: 0.3,
       delay: 0,
     });
 
@@ -407,7 +415,7 @@ function App() {
     if (indexToGo == -1) {
       setFooterIsHidden(false);
       scroll.scrollTo((questions.length + 1) * window.innerHeight, {
-        duration: 0,
+        duration: 0.3,
         delay: 0,
       });
 
@@ -418,7 +426,7 @@ function App() {
       await updateLead("done", true);
     } else {
       scroll.scrollTo((indexToGo + 1) * window.innerHeight, {
-        duration: 0,
+        duration: 0.3,
         delay: 0,
       });
 
@@ -454,6 +462,33 @@ function App() {
       {!footerIsHidden ? <Footer /> : null}
     </div>
   );
+}
+
+// Hook
+function useWindowSize() {
+  // Initialize state with undefined width/height so server and client renders match
+  // Learn more here: https://joshwcomeau.com/react/the-perils-of-rehydration/
+  const [windowSize, setWindowSize] = useState({
+    width: undefined,
+    height: undefined,
+  });
+  useEffect(() => {
+    // Handler to call on window resize
+    function handleResize() {
+      // Set window width/height to state
+      setWindowSize({
+        width: window.innerWidth,
+        height: window.innerHeight,
+      });
+    }
+    // Add event listener
+    window.addEventListener("resize", handleResize);
+    // Call handler right away so state gets updated with initial window size
+    handleResize();
+    // Remove event listener on cleanup
+    return () => window.removeEventListener("resize", handleResize);
+  }, []); // Empty array ensures that effect is only run on mount
+  return windowSize;
 }
 
 export default App;
