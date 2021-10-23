@@ -34,7 +34,7 @@ function Question({
   const touchNext = (index) => {
     // Button begins to shake
 
-    if (!question.answerIsValid) {
+    if (!question.answerIsValid && !question.type == "choice") {
       setShake(true);
       // Buttons stops to shake after 2 seconds
       setTimeout(() => setShake(false), 400);

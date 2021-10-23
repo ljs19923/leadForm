@@ -169,16 +169,11 @@ function App() {
     updateLead("heightinit", window.innerHeight);
     updateLead("newheight", size.height);
 
-    // scroll.scrollTo("test1", {
-    //   duration: 0.3,
-    //   delay: 0,
-    // });
-
-    scroller.scrollTo("myScrollToElement", {
+    scroller.scrollTo("page1", {
       duration: 300,
       delay: 0,
       smooth: false,
-      offset: 0, // Scrolls to element + 50 pixels down the page
+      offset: 50, // Scrolls to element + 50 pixels down the page
     });
 
     const progressValue = (1 / (questions.length + 1)) * 100;
@@ -196,7 +191,6 @@ function App() {
       setquestions(newquestions);
     }
 
-    console.info("Indexx " + index);
     if (!question.answerIsValid) {
       return;
     }
@@ -217,19 +211,31 @@ function App() {
       }
     }
 
+    console.info("indexTsoGO " + indexToGo);
     //On a fini
     if (indexToGo == -1) {
+      console.info("HES LAAAA");
       setFooterIsHidden(false);
-      scroll.scrollTo((questions.length + 1) * window.innerHeight, {
-        duration: 0.3,
+
+      scroll.scrollToBottom({
+        duration: 0,
         delay: 0,
+        smooth: false,
+        offset: 0, // Scrolls to element + 50 pixels down the page
       });
+
+      // scroller.scrollTo("pageFinal", {
+      //   duration: 300,
+      //   delay: 2000,
+      //   smooth: false,
+      //   offset: 50, // Scrolls to element + 50 pixels down the page
+      // });
 
       const progressValue =
         ((questions.length + 1) / (questions.length + 1)) * 100;
       setProgress(progressValue);
 
-      await updateLead("done", true);
+      updateLead("done", true);
     } else {
       scroll.scrollTo((indexToGo + 1) * window.innerHeight, {
         duration: 0.3,
@@ -250,11 +256,13 @@ function App() {
       />
       <img className="france" alt="france" src={france} />
 
-      <Header startQuestions={startQuestions} />
+      <Element name="page0">
+        <Header startQuestions={startQuestions} />
+      </Element>
 
       <div className="innerContainer">
         {questions.map((data, index) => (
-          <Element name="myScrollToElement">
+          <Element name="page1">
             <Question
               questions={questions}
               handleChangeChoice={handleChangeChoice}
@@ -267,7 +275,11 @@ function App() {
         ))}
       </div>
 
-      {!footerIsHidden ? <Footer /> : null}
+      {!footerIsHidden ? (
+        <Element name="pageFinal">
+          <Footer />
+        </Element>
+      ) : null}
     </div>
   );
 }
