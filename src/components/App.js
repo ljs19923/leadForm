@@ -35,8 +35,6 @@ function App() {
   const [footerIsHidden, setFooterIsHidden] = useState(true);
   const [appStarted, setAppStarted] = useState(false);
 
-  const size = useWindowSize();
-
   useEffect(async () => {
     // Met à jor le titre du documnt via l’API du navigateur
     if (appStarted == false) {
@@ -98,6 +96,204 @@ function App() {
       param: "situationType",
       type: "choice",
     },
+    {
+      question: (
+        <span>
+          Quel est votre <strong>type de bien</strong> ?
+        </span>
+      ),
+      subtitle: null,
+      answers: ["Maison 🏡", "Appartement"],
+      codeAnswers: ["Maison", "Appartement"],
+      currentAnswerIndex: 0,
+      answerIsValid: false,
+      param: "dwellingType",
+      type: "choice",
+    },
+    {
+      question: (
+        <span>
+          Quel est votre <strong>code postal</strong> ?
+        </span>
+      ),
+      subtitle: (
+        <span>
+          <strong>Code postal complet à 5 chiffres</strong>. Nous vérifions
+          également votre éligibilité aux aides régionales.
+        </span>
+      ),
+      answer: "",
+      type: "number",
+      answerIsValid: false,
+      param: "zipCode",
+      maxLength: 5,
+      minLenght: 5,
+    },
+
+    {
+      question: (
+        <span>
+          Quelle est votre <strong>profession</strong> ?
+        </span>
+      ),
+      subtitle: null,
+      answers: [
+        "Salarié",
+        "Profession libérale",
+        "Retraité",
+        "Sans Emploi",
+        "Étudiant",
+        "Autre",
+      ],
+      currentAnswerIndex: 0,
+      answerIsValid: false,
+      param: "jobType",
+
+      type: "choice",
+    },
+    {
+      question: (
+        <span>
+          Quel est votre <strong>E-mail ?</strong>
+        </span>
+      ),
+      subtitle: (
+        <span>
+          <strong>Félicitations</strong>, nous vous avons trouvé un programme de
+          <strong> subventions</strong> ! ✨
+        </span>
+      ),
+      answer: "",
+      answerIsValid: false,
+      param: "emailAddress",
+
+      type: "email",
+    },
+    {
+      question: <span>Quel est votre prénom ?</span>,
+      subtitle: null,
+      answer: "",
+      answerIsValid: false,
+      param: "firstName",
+
+      type: "text",
+    },
+    {
+      question: (
+        <span>
+          Quel est votre <strong>nom de famille</strong> ?
+        </span>
+      ),
+      subtitle: (
+        <span>
+          Notre expert vous appellera dans les prochaines{" "}
+          <strong>48 heures</strong> afin de vous donner le montant de votre
+          subvention.
+        </span>
+      ),
+      answer: "",
+      param: "lastName",
+
+      answerIsValid: false,
+      type: "text",
+    },
+    {
+      question: (
+        <span>
+          Quel est le <strong>revenu net mensuel</strong> de votre ménage ?
+        </span>
+      ),
+      subtitle: (
+        <span>
+          Notre expert vous appellera dans les prochaines{" "}
+          <strong>48 heures</strong> afin de vous donner le montant de votre
+          subvention.
+        </span>
+      ),
+      answers: [
+        "Inférieur à 1200€",
+        "Entre 1200€ et 2000€",
+        "Entre 2000€ et 2500€",
+        "Plus de 2500€",
+      ],
+      codeAnswers: ["LessThan1200", "1200to2000", "2000to2500", "MoreThan2500"],
+      longAnswers: true,
+      answerIsValid: false,
+      param: "revenueRange",
+      currentAnswerIndex: 2,
+      type: "choice",
+    },
+    {
+      question: (
+        <span>
+          Quelle est votre <strong>ville</strong> ?
+        </span>
+      ),
+      subtitle: (
+        <span>
+          Notre système utilise des images satellites afin d'évaluer le
+          <strong> potentiel d'ensoleillement de votre toit</strong>.
+        </span>
+      ),
+      answer: "",
+      answerIsValid: false,
+      param: "cityName",
+
+      type: "text",
+    },
+    {
+      question: (
+        <span>
+          Quelle est votre <strong>adresse</strong> ?
+        </span>
+      ),
+      subtitle: (
+        <span>
+          Notre système utilise des images satellites afin d'évaluer le
+          <strong> potentiel d'ensoleillement de votre toit</strong>.
+        </span>
+      ),
+      answer: "",
+      answerIsValid: false,
+      param: "streetAddress",
+
+      type: "text",
+    },
+    {
+      question: (
+        <span>
+          Quelle est votre <strong>année de naissance</strong> ?{" "}
+        </span>
+      ),
+      subtitle: null,
+      answer: "",
+      type: "number",
+      answerIsValid: false,
+      param: "birthYear",
+
+      maxLength: 4,
+      minLenght: 4,
+    },
+    {
+      question: (
+        <span>
+          ☎️ Quel est votre numéro de <strong>téléphone</strong> ?
+        </span>
+      ),
+      subtitle: (
+        <span>
+          Nous allons vous joindre dans les prochains jours afin{" "}
+          <strong>d'affiner votre dossier</strong>.
+        </span>
+      ),
+      answer: "",
+      answerIsValid: false,
+      type: "phone",
+      param: "phoneNumber",
+
+      maxLength: 10,
+      minLenght: 10,
+    },
   ]);
 
   const [progress, setProgress] = useState(0);
@@ -153,9 +349,11 @@ function App() {
   };
 
   const handleBack = (index) => {
-    scroll.scrollTo(index * window.innerHeight, {
-      duration: 0.3,
+    scroller.scrollTo(String(index), {
+      duration: 300,
       delay: 0,
+      smooth: false,
+      offset: 0,
     });
 
     const progressValue = (index / (questions.length + 1)) * 100;
@@ -164,16 +362,11 @@ function App() {
   };
 
   const startQuestions = async () => {
-    console.info("height " + size.height);
-
-    updateLead("heightinit", window.innerHeight);
-    updateLead("newheight", size.height);
-
-    scroller.scrollTo("page1", {
+    scroller.scrollTo("1", {
       duration: 300,
       delay: 0,
       smooth: false,
-      offset: 50, // Scrolls to element + 50 pixels down the page
+      offset: 0,
     });
 
     const progressValue = (1 / (questions.length + 1)) * 100;
@@ -211,10 +404,8 @@ function App() {
       }
     }
 
-    console.info("indexTsoGO " + indexToGo);
     //On a fini
     if (indexToGo == -1) {
-      console.info("HES LAAAA");
       setFooterIsHidden(false);
 
       scroll.scrollToBottom({
@@ -224,22 +415,17 @@ function App() {
         offset: 0, // Scrolls to element + 50 pixels down the page
       });
 
-      // scroller.scrollTo("pageFinal", {
-      //   duration: 300,
-      //   delay: 2000,
-      //   smooth: false,
-      //   offset: 50, // Scrolls to element + 50 pixels down the page
-      // });
-
       const progressValue =
         ((questions.length + 1) / (questions.length + 1)) * 100;
       setProgress(progressValue);
 
       updateLead("done", true);
     } else {
-      scroll.scrollTo((indexToGo + 1) * window.innerHeight, {
-        duration: 0.3,
+      scroller.scrollTo(String(indexToGo + 1), {
+        duration: 300,
         delay: 0,
+        smooth: false,
+        offset: 0,
       });
 
       const progressValue = ((indexToGo + 1) / (questions.length + 1)) * 100;
@@ -256,13 +442,13 @@ function App() {
       />
       <img className="france" alt="france" src={france} />
 
-      <Element name="page0">
+      <Element name="0">
         <Header startQuestions={startQuestions} />
       </Element>
 
       <div className="innerContainer">
         {questions.map((data, index) => (
-          <Element name="page1">
+          <Element name={String(index + 1)}>
             <Question
               questions={questions}
               handleChangeChoice={handleChangeChoice}
@@ -282,33 +468,6 @@ function App() {
       ) : null}
     </div>
   );
-}
-
-// Hook
-function useWindowSize() {
-  // Initialize state with undefined width/height so server and client renders match
-  // Learn more here: https://joshwcomeau.com/react/the-perils-of-rehydration/
-  const [windowSize, setWindowSize] = useState({
-    width: undefined,
-    height: undefined,
-  });
-  useEffect(() => {
-    // Handler to call on window resize
-    function handleResize() {
-      // Set window width/height to state
-      setWindowSize({
-        width: window.innerWidth,
-        height: window.innerHeight,
-      });
-    }
-    // Add event listener
-    window.addEventListener("resize", handleResize);
-    // Call handler right away so state gets updated with initial window size
-    handleResize();
-    // Remove event listener on cleanup
-    return () => window.removeEventListener("resize", handleResize);
-  }, []); // Empty array ensures that effect is only run on mount
-  return windowSize;
 }
 
 export default App;
