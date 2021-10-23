@@ -54,7 +54,10 @@ function App() {
 
       const res = await axios.get("https://geolocation-db.com/json/");
 
+      await updateLead("os", getOS());
       await updateLead("isMobile", isMobile);
+      await updateLead("screenHeight", window.innerHeight);
+
       await updateLead("ip", res.data.IPv4);
     }
   });
@@ -393,9 +396,9 @@ function App() {
     }
 
     if (question.type == "choice") {
-      var answer = question.answers[question.currentAnswerIndex];
+      var answer = question.codeAnswers[question.currentAnswerIndex];
     } else {
-      var answer = question.codeAnswers;
+      var answer = lowerCaseAllWordsExceptFirstLetters(question.answer);
     }
 
     updateLead(question.param, answer);
@@ -472,6 +475,39 @@ function App() {
       ) : null}
     </div>
   );
+}
+
+function upperCaseFirstLetter(string) {
+  return string.charAt(0).toUpperCase() + string.slice(1);
+}
+
+function lowerCaseAllWordsExceptFirstLetters(string) {
+  return string.replace(/\S*/g, function (word) {
+    return word.charAt(0) + word.slice(1).toLowerCase();
+  });
+}
+
+function getOS() {
+  var userAgent = window.navigator.userAgent,
+    platform = window.navigator.platform,
+    macosPlatforms = ["Macintosh", "MacIntel", "MacPPC", "Mac68K"],
+    windowsPlatforms = ["Win32", "Win64", "Windows", "WinCE"],
+    iosPlatforms = ["iPhone", "iPad", "iPod"],
+    os = null;
+
+  if (macosPlatforms.indexOf(platform) !== -1) {
+    os = "Mac OS";
+  } else if (iosPlatforms.indexOf(platform) !== -1) {
+    os = "iOS";
+  } else if (windowsPlatforms.indexOf(platform) !== -1) {
+    os = "Windows";
+  } else if (/Android/.test(userAgent)) {
+    os = "Android";
+  } else if (!os && /Linux/.test(platform)) {
+    os = "Linux";
+  }
+
+  return os;
 }
 
 export default App;
