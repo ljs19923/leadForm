@@ -46,7 +46,7 @@ function App() {
         setOffsetScroll(0);
       }
       scroll.scrollTo(0, {
-        duration: 0.3,
+        duration: 300,
         delay: 0,
       });
       const progressValue = (0 / (questions.length + 1)) * 100;
@@ -413,7 +413,7 @@ function App() {
       setFooterIsHidden(false);
 
       scroll.scrollToBottom({
-        duration: 0,
+        duration: 300,
         delay: 0,
         smooth: false,
         offset: 0, // Scrolls to element + 50 pixels down the page
