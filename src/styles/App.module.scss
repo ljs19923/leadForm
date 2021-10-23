@@ -1,0 +1,58 @@
+$beige: #fffaf2;
+
+html {
+  scroll-behavior: smooth;
+}
+
+body {
+  overflow: hidden;
+}
+
+.container {
+  background-color: $beige;
+  padding-left: 15px;
+  padding-right: 15px;
+
+  display: flex;
+  flex-direction: column;
+  overflow: hidden;
+
+  align-items: center;
+  justify-content: center;
+}
+
+@font-face {
+  font-family: "sf-pro";
+  src: url("../assets/fonts/SFProDisplay-Regular.woff");
+  font-weight: 400;
+}
+
+@font-face {
+  font-family: "sf-pro";
+  src: url("../assets/fonts/SFProDisplay-Medium.woff");
+  font-weight: 500;
+}
+
+@font-face {
+  font-family: "sf-pro";
+  src: url("../assets/fonts/SFProDisplay-Semibold.woff");
+  font-weight: 600;
+}
+
+@font-face {
+  font-family: "sf-pro";
+  src: url("../assets/fonts/SFProDisplay-Bold.woff");
+  font-weight: 700;
+}
+
+@font-face {
+  font-family: "sf-pro";
+  src: url("../assets/fonts/SFProDisplay-Heavy.woff");
+  font-weight: 800;
+}
+
+@font-face {
+  font-family: "sf-pro";
+  src: url("../assets/fonts/SFProDisplay-Black.woff");
+  font-weight: 900;
+}
