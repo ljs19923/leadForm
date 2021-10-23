@@ -34,7 +34,7 @@ function App() {
   const [leadForm, setLeadForm] = useState(new LeadForm());
   const [footerIsHidden, setFooterIsHidden] = useState(true);
   const [appStarted, setAppStarted] = useState(false);
-  const [offsetScroll, setOffsetScroll] = useState(150);
+  const [offsetScroll, setOffsetScroll] = useState(100);
 
   useEffect(async () => {
     // Met à jor le titre du documnt via l’API du navigateur
