@@ -14,6 +14,9 @@ import axios from "axios";
 
 var Scroll = require("react-scroll");
 const scroll = Scroll.animateScroll;
+var scroller = Scroll.scroller;
+
+var Element = Scroll.Element;
 
 const LeadForm = Parse.Object.extend("LeadForm");
 
@@ -26,12 +29,6 @@ Parse.initialize(
 
 Parse.serverURL =
   "https://pg-app-anqa30rgauq0e3zdaich1reeciyju8.scalabl.cloud/1/";
-
-// var Link = Scroll.Link;
-// var DirectLink = Scroll.DirectLink;
-// var Element = Scroll.Element;
-// var Events = Scroll.Events;
-// var scrollSpy = Scroll.scrollSpy;
 
 function App() {
   const [leadForm, setLeadForm] = useState(new LeadForm());
@@ -100,204 +97,6 @@ function App() {
       answerIsValid: false,
       param: "situationType",
       type: "choice",
-    },
-    {
-      question: (
-        <span>
-          Quel est votre <strong>type de bien</strong> ?
-        </span>
-      ),
-      subtitle: null,
-      answers: ["Maison 🏡", "Appartement"],
-      codeAnswers: ["Maison", "Appartement"],
-      currentAnswerIndex: 0,
-      answerIsValid: false,
-      param: "dwellingType",
-      type: "choice",
-    },
-    {
-      question: (
-        <span>
-          Quel est votre <strong>code postal</strong> ?
-        </span>
-      ),
-      subtitle: (
-        <span>
-          <strong>Code postal complet à 5 chiffres</strong>. Nous vérifions
-          également votre éligibilité aux aides régionales.
-        </span>
-      ),
-      answer: "",
-      type: "number",
-      answerIsValid: false,
-      param: "zipCode",
-      maxLength: 5,
-      minLenght: 5,
-    },
-
-    {
-      question: (
-        <span>
-          Quelle est votre <strong>profession</strong> ?
-        </span>
-      ),
-      subtitle: null,
-      answers: [
-        "Salarié",
-        "Profession libérale",
-        "Retraité",
-        "Sans Emploi",
-        "Étudiant",
-        "Autre",
-      ],
-      currentAnswerIndex: 0,
-      answerIsValid: false,
-      param: "jobType",
-
-      type: "choice",
-    },
-    {
-      question: (
-        <span>
-          Quel est votre <strong>E-mail ?</strong>
-        </span>
-      ),
-      subtitle: (
-        <span>
-          <strong>Félicitations</strong>, nous vous avons trouvé un programme de
-          <strong> subventions</strong> ! ✨
-        </span>
-      ),
-      answer: "",
-      answerIsValid: false,
-      param: "emailAddress",
-
-      type: "email",
-    },
-    {
-      question: <span>Quel est votre prénom ?</span>,
-      subtitle: null,
-      answer: "",
-      answerIsValid: false,
-      param: "firstName",
-
-      type: "text",
-    },
-    {
-      question: (
-        <span>
-          Quel est votre <strong>nom de famille</strong> ?
-        </span>
-      ),
-      subtitle: (
-        <span>
-          Notre expert vous appellera dans les prochaines{" "}
-          <strong>48 heures</strong> afin de vous donner le montant de votre
-          subvention.
-        </span>
-      ),
-      answer: "",
-      param: "lastName",
-
-      answerIsValid: false,
-      type: "text",
-    },
-    {
-      question: (
-        <span>
-          Quel est le <strong>revenu net mensuel</strong> de votre ménage ?
-        </span>
-      ),
-      subtitle: (
-        <span>
-          Notre expert vous appellera dans les prochaines{" "}
-          <strong>48 heures</strong> afin de vous donner le montant de votre
-          subvention.
-        </span>
-      ),
-      answers: [
-        "Inférieur à 1200€",
-        "Entre 1200€ et 2000€",
-        "Entre 2000€ et 2500€",
-        "Plus de 2500€",
-      ],
-      codeAnswers: ["LessThan1200", "1200to2000", "2000to2500", "MoreThan2500"],
-      longAnswers: true,
-      answerIsValid: false,
-      param: "revenueRange",
-      currentAnswerIndex: 2,
-      type: "choice",
-    },
-    {
-      question: (
-        <span>
-          Quelle est votre <strong>ville</strong> ?
-        </span>
-      ),
-      subtitle: (
-        <span>
-          Notre système utilise des images satellites afin d'évaluer le
-          <strong> potentiel d'ensoleillement de votre toit</strong>.
-        </span>
-      ),
-      answer: "",
-      answerIsValid: false,
-      param: "cityName",
-
-      type: "text",
-    },
-    {
-      question: (
-        <span>
-          Quelle est votre <strong>adresse</strong> ?
-        </span>
-      ),
-      subtitle: (
-        <span>
-          Notre système utilise des images satellites afin d'évaluer le
-          <strong> potentiel d'ensoleillement de votre toit</strong>.
-        </span>
-      ),
-      answer: "",
-      answerIsValid: false,
-      param: "streetAddress",
-
-      type: "text",
-    },
-    {
-      question: (
-        <span>
-          Quelle est votre <strong>année de naissance</strong> ?{" "}
-        </span>
-      ),
-      subtitle: null,
-      answer: "",
-      type: "number",
-      answerIsValid: false,
-      param: "birthYear",
-
-      maxLength: 4,
-      minLenght: 4,
-    },
-    {
-      question: (
-        <span>
-          ☎️ Quel est votre numéro de <strong>téléphone</strong> ?
-        </span>
-      ),
-      subtitle: (
-        <span>
-          Nous allons vous joindre dans les prochains jours afin{" "}
-          <strong>d'affiner votre dossier</strong>.
-        </span>
-      ),
-      answer: "",
-      answerIsValid: false,
-      type: "phone",
-      param: "phoneNumber",
-
-      maxLength: 10,
-      minLenght: 10,
     },
   ]);
 
@@ -370,9 +169,16 @@ function App() {
     updateLead("heightinit", window.innerHeight);
     updateLead("newheight", size.height);
 
-    scroll.scrollTo(size.height, {
-      duration: 0.3,
+    // scroll.scrollTo("test1", {
+    //   duration: 0.3,
+    //   delay: 0,
+    // });
+
+    scroller.scrollTo("myScrollToElement", {
+      duration: 300,
       delay: 0,
+      smooth: false,
+      offset: 0, // Scrolls to element + 50 pixels down the page
     });
 
     const progressValue = (1 / (questions.length + 1)) * 100;
@@ -448,14 +254,16 @@ function App() {
 
       <div className="innerContainer">
         {questions.map((data, index) => (
-          <Question
-            questions={questions}
-            handleChangeChoice={handleChangeChoice}
-            handleChangeAnswer={handleChangeAnswer}
-            handleNext={handleNext}
-            handleBack={handleBack}
-            index={index}
-          />
+          <Element name="myScrollToElement">
+            <Question
+              questions={questions}
+              handleChangeChoice={handleChangeChoice}
+              handleChangeAnswer={handleChangeAnswer}
+              handleNext={handleNext}
+              handleBack={handleBack}
+              index={index}
+            />
+          </Element>
         ))}
       </div>
 
