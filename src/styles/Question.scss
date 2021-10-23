@@ -340,16 +340,12 @@ input::placeholder {
   }
 
   .backBtn {
-    background-color: #f1eade;
-    display: flex;
-    cursor: pointer;
-    align-items: center;
-    justify-content: center;
     padding: 13px;
     height: 15px;
     max-width: 18px;
     border-radius: 6px;
     margin-bottom: 15px;
+    margin-top: 40px;
     &:hover {
       background-color: #ebdcc4;
     }
