@@ -5,6 +5,7 @@ import Footer from "./Footer";
 import Header from "./Header";
 import LoadingBar from "react-top-loading-bar";
 import { isMobile } from "react-device-detect";
+import ReactPixel from "react-facebook-pixel";
 
 import Parse from "parse/dist/parse.min.js";
 
@@ -27,6 +28,13 @@ Parse.initialize(
   "WLHNU8nHwg5sqU2ah5S3p3YQaqU4KDCAAlQORRWO"
 );
 
+const advancedMatching = {};
+const options = {
+  autoConfig: true, // set pixel's autoConfig. More info: https://developers.facebook.com/docs/facebook-pixel/advanced/
+  debug: false, // enable logs
+};
+ReactPixel.init("251506523438577", advancedMatching, options);
+
 Parse.serverURL =
   "https://pg-app-anqa30rgauq0e3zdaich1reeciyju8.scalabl.cloud/1/";
 
@@ -39,6 +47,8 @@ function App() {
   useEffect(async () => {
     // Met à jor le titre du documnt via l’API du navigateur
     if (appStarted == false) {
+      ReactPixel.pageView(); // For tracking page view
+
       setAppStarted(true);
       await updateLead("created", true);
 
@@ -379,7 +389,9 @@ function App() {
     const progressValue = (1 / (questions.length + 1)) * 100;
     setProgress(progressValue);
 
-    await updateLead("started", true);
+    ReactPixel.track("TypeformFirstInteraction");
+
+    updateLead("started", true);
   };
 
   const handleNext = async (index) => {
@@ -427,6 +439,8 @@ function App() {
       setProgress(progressValue);
 
       updateLead("done", true);
+
+      ReactPixel.track("TypeformSubmit");
     } else {
       scroller.scrollTo(String(indexToGo + 1), {
         duration: 300,
