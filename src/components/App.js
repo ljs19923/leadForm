@@ -395,7 +395,7 @@ function App() {
     if (question.type == "choice") {
       var answer = question.answers[question.currentAnswerIndex];
     } else {
-      var answer = question.answer;
+      var answer = question.codeAnswers;
     }
 
     updateLead(question.param, answer);
