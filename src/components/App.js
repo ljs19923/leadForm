@@ -464,11 +464,13 @@ function App() {
     } else {
       if (question.fbEventSent == false) {
         if (question.param == "situationType") {
-          if (question.codeAnswers[currentAnswerIndex] == "Propriétaire") {
+          if (
+            question.codeAnswers[question.currentAnswerIndex] == "Propriétaire"
+          ) {
             ReactPixel.track(question.fbEvent);
           }
         } else if (question.param == "dwellingType") {
-          if (question.codeAnswers[currentAnswerIndex] == "Maison") {
+          if (question.codeAnswers[question.currentAnswerIndex] == "Maison") {
             ReactPixel.track(question.fbEvent);
           }
         } else {
@@ -481,7 +483,7 @@ function App() {
         setquestions(newquestions);
       }
     }
-
+    //
     setCurrentStep(Number(index + 2));
     const progressValue = ((index + 2) / (questions.length + 1)) * 100;
     setProgress(progressValue);
