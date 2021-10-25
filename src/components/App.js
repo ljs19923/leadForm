@@ -473,20 +473,20 @@ function App() {
             question.fbEventSent = true;
             setquestions(newquestions);
           }
-        } else if (question.param == "dwellingType") {
-          if (question.codeAnswers[question.currentAnswerIndex] == "Maison") {
-            if (question.fbEventSent == false) {
-              ReactPixel.track(question.fbEvent);
-              question.fbEventSent = true;
-              setquestions(newquestions);
-            }
-          }
-        } else {
+        }
+      } else if (question.param == "dwellingType") {
+        if (question.codeAnswers[question.currentAnswerIndex] == "Maison") {
           if (question.fbEventSent == false) {
             ReactPixel.track(question.fbEvent);
             question.fbEventSent = true;
             setquestions(newquestions);
           }
+        }
+      } else {
+        if (question.fbEventSent == false) {
+          ReactPixel.track(question.fbEvent);
+          question.fbEventSent = true;
+          setquestions(newquestions);
         }
       }
     }
