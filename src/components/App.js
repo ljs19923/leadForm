@@ -41,16 +41,17 @@ Parse.serverURL =
 function App() {
   const [leadForm, setLeadForm] = useState(new LeadForm());
   const [appStarted, setAppStarted] = useState(false);
+  const [appDisplayed, setAppDisplayed] = useState(false);
   const [offsetScroll, setOffsetScroll] = useState(100);
   const [currentStep, setCurrentStep] = useState(0);
 
   useEffect(async () => {
     // Met à jor le titre du documnt via l’API du navigateur
-    if (appStarted == false) {
+    if (appDisplayed == false) {
       ReactPixel.pageView(); // For tracking page view
       ReactPixel.track("fbpv_displayed");
 
-      setAppStarted(true);
+      setAppDisplayed(true);
       await updateLead("created", true);
 
       if (isMobile == false) {
@@ -427,7 +428,10 @@ function App() {
     const progressValue = (1 / (questions.length + 1)) * 100;
     setProgress(progressValue);
 
-    ReactPixel.track("fbpv_started");
+    if (appStarted == false) {
+      ReactPixel.track("fbpv_started");
+      setAppStarted(true);
+    }
 
     updateLead("started", true);
   };
