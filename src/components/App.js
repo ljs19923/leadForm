@@ -463,7 +463,17 @@ function App() {
       ReactPixel.track("fbpv_finished");
     } else {
       if (question.fbEventSent == false) {
-        ReactPixel.track(question.fbEvent);
+        if (question.param == "situationType") {
+          if (question.codeAnswers[currentAnswerIndex] == "Propriétaire") {
+            ReactPixel.track(question.fbEvent);
+          }
+        } else if (question.param == "dwellingType") {
+          if (question.codeAnswers[currentAnswerIndex] == "Maison") {
+            ReactPixel.track(question.fbEvent);
+          }
+        } else {
+          ReactPixel.track(question.fbEvent);
+        }
 
         var newquestions = [...questions];
         var question = newquestions[index];
