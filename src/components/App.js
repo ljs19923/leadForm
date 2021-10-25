@@ -461,6 +461,7 @@ function App() {
       updateLead("done", true);
 
       ReactPixel.track("fbpv_finished");
+      ReactPixel.track("Lead");
     } else {
       console.log("yes pixel prproio 1");
 
