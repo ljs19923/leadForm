@@ -462,25 +462,32 @@ function App() {
 
       ReactPixel.track("fbpv_finished");
     } else {
-      if (question.fbEventSent == false) {
-        if (question.param == "situationType") {
-          if (
-            question.codeAnswers[question.currentAnswerIndex] == "Propriétaire"
-          ) {
+      console.log("yes pixel prproio 1");
+
+      if (question.param == "situationType") {
+        if (
+          question.codeAnswers[question.currentAnswerIndex] == "Propriétaire"
+        ) {
+          if (question.fbEventSent == false) {
             ReactPixel.track(question.fbEvent);
+            question.fbEventSent = true;
+            setquestions(newquestions);
           }
         } else if (question.param == "dwellingType") {
           if (question.codeAnswers[question.currentAnswerIndex] == "Maison") {
-            ReactPixel.track(question.fbEvent);
+            if (question.fbEventSent == false) {
+              ReactPixel.track(question.fbEvent);
+              question.fbEventSent = true;
+              setquestions(newquestions);
+            }
           }
         } else {
-          ReactPixel.track(question.fbEvent);
+          if (question.fbEventSent == false) {
+            ReactPixel.track(question.fbEvent);
+            question.fbEventSent = true;
+            setquestions(newquestions);
+          }
         }
-
-        var newquestions = [...questions];
-        var question = newquestions[index];
-        question.fbEventSent = true;
-        setquestions(newquestions);
       }
     }
     //
