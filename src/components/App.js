@@ -48,6 +48,7 @@ function App() {
     // Met à jor le titre du documnt via l’API du navigateur
     if (appStarted == false) {
       ReactPixel.pageView(); // For tracking page view
+      ReactPixel.track("fbpv_displayed");
 
       setAppStarted(true);
       await updateLead("created", true);
@@ -111,6 +112,8 @@ function App() {
       currentAnswerIndex: 0,
       answerIsValid: false,
       param: "situationType",
+      fbEventSent: false,
+      fbEvent: "fbpv_situationType",
       type: "choice",
     },
     {
@@ -125,6 +128,9 @@ function App() {
       currentAnswerIndex: 0,
       answerIsValid: false,
       param: "dwellingType",
+      fbEvent: "fbpv_dwellingType",
+      fbEventSent: false,
+
       type: "choice",
     },
     {
@@ -143,6 +149,9 @@ function App() {
       type: "number",
       answerIsValid: false,
       param: "zipCode",
+      fbEvent: "fbpv_zipCode",
+      fbEventSent: false,
+
       maxLength: 5,
       minLenght: 5,
     },
@@ -172,6 +181,8 @@ function App() {
       ],
       currentAnswerIndex: 0,
       answerIsValid: false,
+      fbEventSent: false,
+      fbEvent: "fbpv_jobType",
       param: "jobType",
 
       type: "choice",
@@ -188,10 +199,11 @@ function App() {
           <strong> subventions</strong> ! ✨
         </span>
       ),
+
       answer: "",
       answerIsValid: false,
       param: "emailAddress",
-
+      fbEvent: "fbpv_emailAddress",
       type: "email",
     },
     {
@@ -200,7 +212,8 @@ function App() {
       answer: "",
       answerIsValid: false,
       param: "firstName",
-
+      fbEventSent: false,
+      fbEvent: "fbpv_firstName",
       type: "text",
     },
     {
@@ -218,6 +231,7 @@ function App() {
       ),
       answer: "",
       param: "lastName",
+      fbEventSent: false,
 
       answerIsValid: false,
       type: "text",
@@ -245,6 +259,9 @@ function App() {
       longAnswers: true,
       answerIsValid: false,
       param: "revenueRange",
+      fbEvent: "fbpv_revenueRange",
+      fbEventSent: false,
+
       currentAnswerIndex: 2,
       type: "choice",
     },
@@ -262,7 +279,10 @@ function App() {
       ),
       answer: "",
       answerIsValid: false,
+      fbEventSent: false,
+
       param: "cityName",
+      fbEvent: "fbpv_cityName",
 
       type: "text",
     },
@@ -280,8 +300,10 @@ function App() {
       ),
       answer: "",
       answerIsValid: false,
-      param: "streetAddress",
+      fbEventSent: false,
 
+      param: "streetAddress",
+      fbEvent: "fbpv_streetAddress",
       type: "text",
     },
     {
@@ -294,8 +316,10 @@ function App() {
       answer: "",
       type: "number",
       answerIsValid: false,
-      param: "birthYear",
+      fbEventSent: false,
 
+      param: "birthYear",
+      fbEvent: "fbpv_birthYear",
       maxLength: 4,
       minLenght: 4,
     },
@@ -313,9 +337,11 @@ function App() {
       ),
       answer: "",
       answerIsValid: false,
+      fbEventSent: false,
+
       type: "phone",
       param: "phoneNumber",
-
+      fbEvent: "fbpv_phoneNumber",
       maxLength: 10,
       minLenght: 10,
     },
@@ -401,7 +427,7 @@ function App() {
     const progressValue = (1 / (questions.length + 1)) * 100;
     setProgress(progressValue);
 
-    ReactPixel.track("TypeformFirstInteraction");
+    ReactPixel.track("fbpv_started");
 
     updateLead("started", true);
   };
@@ -428,11 +454,18 @@ function App() {
     updateLead(question.param, answer);
 
     if (index + 1 == questions.length) {
-      console.info("ON A FINI " + index);
-
       updateLead("done", true);
-      ReactPixel.track("TypeformSubmit");
-      ReactPixel.track("CustomFormDone");
+
+      ReactPixel.track("fbpv_finished");
+    } else {
+      if (question.fbEventSent == false) {
+        ReactPixel.track(question.fbEvent);
+
+        var newquestions = [...questions];
+        var question = newquestions[index];
+        question.fbEventSent = true;
+        setquestions(newquestions);
+      }
     }
 
     setCurrentStep(Number(index + 2));
