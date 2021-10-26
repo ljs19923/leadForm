@@ -190,16 +190,14 @@ function Question({
 
         {remaining == 1 && (
           <p className="timeInfo">
-            ⏰ Encore seulement <strong>{remaining} demande disponible </strong>
-            aujourd'hui.{" "}
+            ⏰ Encore seulement <strong>{remaining} demande disponible.</strong>{" "}
           </p>
         )}
 
         {remaining != 1 && (
           <p className="timeInfo">
             ⏰ Encore seulement{" "}
-            <strong>{remaining} demandes disponibles </strong>
-            aujourd'hui.{" "}
+            <strong>{remaining} demandes disponibles.</strong>
           </p>
         )}
       </div>

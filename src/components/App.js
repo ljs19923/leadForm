@@ -68,7 +68,7 @@ function App() {
       cookies.set("remaining", countRef.current - 1, { path: "/" });
 
       if (countRef.current - 1 < 5) {
-        setTimeout(myFunction, randomIntFromInterval(8, 13) * 1000);
+        setTimeout(myFunction, randomIntFromInterval(8, 20) * 1000);
       } else {
         setTimeout(myFunction, randomIntFromInterval(1, 11) * 1000);
       }
@@ -84,7 +84,7 @@ function App() {
       console.info("CA VA REPRENDRE");
 
       if (cookies.get("remaining") < 23) {
-        setTimeout(myFunction, 4000);
+        setTimeout(myFunction, 7000);
       } else {
         setTimeout(myFunction, 1000);
       }
