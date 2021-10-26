@@ -413,5 +413,10 @@ input::placeholder {
 
 .timeInfo {
   margin-top: 20px !important;
-  color: $myGreen !important;
+  color: red !important;
+  font-weight: 400;
+}
+
+.timeInfo strong {
+  color: red !important;
 }

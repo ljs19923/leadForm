@@ -189,11 +189,18 @@ function Question({
         </div>
 
         {remaining == 1 && (
-          <p className="timeInfo">🏁 {remaining} Dernière question</p>
+          <p className="timeInfo">
+            ⏰ Encore seulement <strong>{remaining} demande disponible </strong>
+            aujourd'hui.{" "}
+          </p>
         )}
 
-        {remaining != 1 && remaining < 11 && (
-          <p className="timeInfo">⏳ {remaining} questions restantes</p>
+        {remaining != 1 && (
+          <p className="timeInfo">
+            ⏰ Encore seulement{" "}
+            <strong>{remaining} demandes disponibles </strong>
+            aujourd'hui.{" "}
+          </p>
         )}
       </div>
     </div>

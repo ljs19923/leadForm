@@ -5,7 +5,7 @@ import maprimerenov from "../assets/images/maprimerenov.png";
 
 var classNames = require("classnames");
 
-function Header({ startQuestions }) {
+function Header({ startQuestions, remaining }) {
   return (
     <div className="blocQuestion">
       <div className="headerImages">
@@ -36,6 +36,20 @@ function Header({ startQuestions }) {
           C'est parti !
         </a>
       </div>
+
+      {remaining == 1 && (
+        <p className="timeInfo">
+          ⏰ Encore seulement <strong>{remaining} demande disponible </strong>
+          aujourd'hui.{" "}
+        </p>
+      )}
+
+      {remaining != 1 && (
+        <p className="timeInfo">
+          ⏰ Encore seulement <strong>{remaining} demandes disponibles </strong>
+          aujourd'hui.{" "}
+        </p>
+      )}
     </div>
   );
 }

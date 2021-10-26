@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from "react";
+import React, { useState, useEffect, useRef } from "react";
 
 import Question from "./Question";
 import Footer from "./Footer";
@@ -8,6 +8,7 @@ import { isMobile } from "react-device-detect";
 import ReactPixel from "react-facebook-pixel";
 
 import Parse from "parse/dist/parse.min.js";
+import Cookies from "universal-cookie";
 
 import "../styles/App.scss";
 import france from "../assets/images/france.png";
@@ -35,6 +36,13 @@ const options = {
 };
 ReactPixel.init("251506523438577", advancedMatching, options);
 
+const cookies = new Cookies();
+
+if (cookies.get("remaining") == undefined) {
+  cookies.set("remaining", 23, { path: "/" });
+}
+console.log(cookies.get("remaining")); // Pacman
+
 Parse.serverURL =
   "https://pg-app-anqa30rgauq0e3zdaich1reeciyju8.scalabl.cloud/1/";
 
@@ -44,12 +52,42 @@ function App() {
   const [appDisplayed, setAppDisplayed] = useState(false);
   const [offsetScroll, setOffsetScroll] = useState(100);
   const [currentStep, setCurrentStep] = useState(0);
+  const [remaining, setRemaining] = useState(cookies.get("remaining"));
+
+  const countRef = useRef(remaining);
+  countRef.current = remaining;
+
+  function randomIntFromInterval(min, max) {
+    // min and max included
+    return Math.floor(Math.random() * (max - min + 1) + min);
+  }
+
+  function myFunction() {
+    if (countRef.current > 1) {
+      setRemaining(countRef.current - 1);
+      cookies.set("remaining", countRef.current - 1, { path: "/" });
+
+      if (countRef.current - 1 < 5) {
+        setTimeout(myFunction, randomIntFromInterval(8, 13) * 1000);
+      } else {
+        setTimeout(myFunction, randomIntFromInterval(1, 11) * 1000);
+      }
+    }
+  }
 
   useEffect(async () => {
     // Met à jor le titre du documnt via l’API du navigateur
     if (appDisplayed == false) {
       ReactPixel.pageView(); // For tracking page view
       ReactPixel.track("fbpv_displayed");
+
+      console.info("CA VA REPRENDRE");
+
+      if (cookies.get("remaining") < 23) {
+        setTimeout(myFunction, 4000);
+      } else {
+        setTimeout(myFunction, 1000);
+      }
 
       setAppDisplayed(true);
       await updateLead("created", true);
@@ -511,7 +549,7 @@ function App() {
           hidden: currentStep == 0 ? false : true,
         })}
       >
-        <Header startQuestions={startQuestions} />
+        <Header startQuestions={startQuestions} remaining={remaining} />
       </Element>
 
       <div className="innerContainer">
@@ -527,7 +565,7 @@ function App() {
               handleChangeAnswer={handleChangeAnswer}
               handleNext={handleNext}
               handleBack={handleBack}
-              remaining={questions.length - index}
+              remaining={remaining}
               index={index}
             />
           </Element>
