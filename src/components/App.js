@@ -70,7 +70,7 @@ function App() {
       if (countRef.current - 1 < 5) {
         setTimeout(myFunction, randomIntFromInterval(8, 20) * 1000);
       } else {
-        setTimeout(myFunction, randomIntFromInterval(1, 11) * 1000);
+        setTimeout(myFunction, randomIntFromInterval(1, 9) * 1000);
       }
     }
   }
@@ -84,7 +84,9 @@ function App() {
       console.info("CA VA REPRENDRE");
 
       if (cookies.get("remaining") < 23) {
-        setTimeout(myFunction, 7000);
+        if (cookies.get("remaining") > 1) {
+          setTimeout(myFunction, 7000);
+        }
       } else {
         setTimeout(myFunction, 1000);
       }

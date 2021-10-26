@@ -39,13 +39,15 @@ function Header({ startQuestions, remaining }) {
 
       {remaining == 1 && (
         <p className="timeInfo">
-          ⏰ Encore seulement <strong>{remaining} demande disponible.</strong>{" "}
+          ⏰ Encore seulement <strong>{remaining} candidature</strong>{" "}
+          disponible.
         </p>
       )}
 
       {remaining != 1 && (
         <p className="timeInfo">
-          ⏰ Encore seulement <strong>{remaining} demandes disponibles.</strong>
+          ⏰ Encore seulement <strong>{remaining} candidatures</strong>{" "}
+          disponibles.
         </p>
       )}
     </div>

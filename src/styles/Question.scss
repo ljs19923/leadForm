@@ -369,6 +369,25 @@ input::placeholder {
   }
 }
 
+.timeInfo {
+  margin-top: 20px !important;
+  color: red !important;
+  font-weight: 400;
+}
+
+.timeInfo strong {
+  color: red !important;
+}
+
+@media (max-width: 400px) {
+  .timeInfo {
+    margin-top: 20px !important;
+    color: red !important;
+    font-weight: 400;
+    font-size: 13px !important;
+  }
+}
+
 @media (max-width: 340px) {
   .logo {
     height: 40px;
@@ -409,14 +428,4 @@ input::placeholder {
   .brHideDesktop {
     display: none;
   }
-}
-
-.timeInfo {
-  margin-top: 20px !important;
-  color: red !important;
-  font-weight: 400;
-}
-
-.timeInfo strong {
-  color: red !important;
 }
